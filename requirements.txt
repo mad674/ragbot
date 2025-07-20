@@ -1,0 +1,10 @@
+streamlit
+transformers
+sentence-transformers
+faiss-cpu
+groq
+PyPDF2
+beautifulsoup4
+requests
+xmltodict
+pillow
