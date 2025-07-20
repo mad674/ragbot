@@ -95,8 +95,8 @@ def query_llm_groq(prompt, model="llama3-70b-8192", api_key="gsk_qeV2qRo0kdVM68z
 if __name__ == "__main__":
     # Your list of URLs to scrape and index
     url=get_all_links("https://kmit.in", max_links=200)
-    url2=get_all_links("https://bing.com/search?q=kmit", max_links=100)
-    url=url + url2
+    # url2=get_all_links("https://bing.com/search?q=kmit", max_links=100)
+    # url=url + url2
     url = list(set(url))  # Remove duplicates
     urls = [
         "https://www.kmit.in/",
