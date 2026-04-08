@@ -75,23 +75,37 @@ def retrieve_relevant_chunks(query, top_k=3):
     return [(chunks[i], metadata[i]) for i in I[0]]
 
 
-def query_llm_groq(prompt, model="llama3-70b-8192", api_key="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"):
+def query_llm_groq(prompt, model="llama3-70b-8192", api_key=None):
     url = "https://api.groq.com/openai/v1/chat/completions"
-    headers = {"Authorization": f"Bearer {api_key}"}
+
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Content-Type": "application/json",  # ✅ REQUIRED
+    }
+
     data = {
         "model": model,
-        "messages": [{"role": "user", "content": prompt}],
+        "messages": [
+            {"role": "user", "content": prompt}
+        ],
         "temperature": 0.5,
     }
-    while True:
+
+    for _ in range(3):  # ✅ avoid infinite loop
         res = requests.post(url, headers=headers, json=data)
+
         if res.status_code == 429:
             print("Rate limit hit. Waiting 5 seconds...")
             time.sleep(5)
             continue
-        res.raise_for_status()
+
+        if res.status_code != 200:
+            print("❌ GROQ ERROR:", res.text)  # 🔥 MUST HAVE
+            res.raise_for_status()
+
         return res.json()["choices"][0]["message"]["content"]
 
+    raise Exception("Failed after retries")
 if __name__ == "__main__":
     # Your list of URLs to scrape and index
     url=get_all_links("https://kmit.in", max_links=200)
