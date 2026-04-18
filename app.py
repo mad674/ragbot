@@ -33,7 +33,7 @@ if query:
         results = retrieve_relevant_chunks(query)
         context = "\n".join([r[0] for r in results])
         prompt = f"Answer the question using the context below:\n\nContext:\n{context}\n\nQuestion: {query}"
-        response = query_llm_groq(prompt, model="llama-3.3-70b-versatile", api_key="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")
+        response = query_llm_groq(prompt, model="llama-3.3-70b-versatile", api_key="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")
 
     st.markdown("---")
     st.markdown("### 💬 Answer")
